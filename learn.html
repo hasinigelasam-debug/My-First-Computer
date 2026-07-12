@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learn Computer Parts</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<h1>📖 Learn Computer Parts</h1>
+</header>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="learn.html">Learn</a>
+<a href="quiz.html">Quiz</a>
+<a href="games.html">Games</a>
+<a href="about.html">About</a>
+</nav>
+
+<div class="lesson">
+
+<!-- Lesson 1 -->
+<div class="lesson-page" id="lesson1">
+
+<h2>🖥️ Lesson 1: Monitor</h2>
+<img src="https://cdn-icons-png.flaticon.com/512/3474/3474360.png"
+alt="Monitor"
+width="180">
+
+<p><b>What is a Monitor?</b></p>
+
+<p>
+A monitor is the screen of the computer. It displays text, pictures,
+videos and games.
+</p>
+
+<h3>Uses</h3>
+
+<ul>
+<li>Shows text</li>
+<li>Shows pictures</li>
+<li>Shows videos</li>
+<li>Helps us watch online classes</li>
+</ul>
+
+<button onclick="showLesson(2)">Next Lesson ➜</button>
+
+</div>
+
+<!-- Lesson 2 -->
+<div class="lesson-page" id="lesson2" style="display:none;">
+
+<h2>⌨️ Lesson 2: Keyboard</h2>
+<img src="https://cdn-icons-png.flaticon.com/512/3534/3534063.png"
+alt="Keyboard"
+width="180">
+<p><b>What is a Keyboard?</b></p>
+
+<p>
+A keyboard is used to type letters, numbers and symbols.
+</p>
+
+<h3>Uses</h3>
+
+<ul>
+<li>Type names</li>
+<li>Write homework</li>
+<li>Type numbers</li>
+</ul>
+
+<button onclick="showLesson(1)">⬅ Previous</button>
+
+<button onclick="showLesson(3)">Next Lesson ➜</button>
+
+</div>
+
+<!-- Lesson 3 -->
+<div class="lesson-page" id="lesson3" style="display:none;">
+
+<h2>🖱️ Lesson 3: Mouse</h2>
+<img src="https://cdn-icons-png.flaticon.com/512/2881/2881142.png"
+alt="Mouse"
+width="180">
+<p>
+A mouse is used to move the pointer and click on icons.
+</p>
+
+<h3>Uses</h3>
+
+<ul>
+<li>Open files</li>
+<li>Play games</li>
+<li>Draw pictures</li>
+</ul>
+
+<button onclick="showLesson(2)">⬅ Previous</button>
+
+<button onclick="showLesson(4)">Next Lesson ➜</button>
+
+</div>
+
+<!-- Lesson 4 -->
+<div class="lesson-page" id="lesson4" style="display:none;">
+
+<h2>💻 Lesson 4: CPU</h2>
+<img src="https://cdn-icons-png.flaticon.com/512/4616/4616734.png"
+alt="CPU"
+width="180">
+<p>
+The CPU is called the brain of the computer.
+It controls all the work of the computer.
+</p>
+
+<button onclick="showLesson(3)">⬅ Previous</button>
+
+<button onclick="showLesson(5)">Next Lesson ➜</button>
+
+</div>
+
+<!-- Lesson 5 -->
+<div class="lesson-page" id="lesson5" style="display:none;">
+
+<h2>🖨️ Lesson 5: Printer</h2>
+<img src="https://cdn-icons-png.flaticon.com/512/3022/3022251.png"
+alt="Printer"
+width="180">
+<p>
+A printer prints documents and pictures on paper.
+</p>
+
+<button onclick="showLesson(4)">⬅ Previous</button>
+
+<a href="quiz.html">
+<button>Finish Learning ➜ Take Quiz</button>
+</a>
+
+</div>
+
+</div>
+
+<script>
+function showLesson(number){
+
+let lessons=document.getElementsByClassName("lesson-page");
+
+for(let i=0;i<lessons.length;i++){
+lessons[i].style.display="none";
+}
+
+document.getElementById("lesson"+number).style.display="block";
+
+}
+</script>
+
+</body>
+</html>
