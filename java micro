@@ -1,0 +1,196 @@
+import java.util.*;
+class Employee {
+    int id;
+    String name, designation;
+    double basicSalary, allowance, deductions, taxRate;
+
+    Employee(int id, String name, String designation,
+             double basicSalary, double allowance,
+             double deductions, double taxRate) {
+        this.id = id;
+        this.name = name;
+        this.designation = designation;
+        this.basicSalary = basicSalary;
+        this.allowance = allowance;
+        this.deductions = deductions;
+        this.taxRate = taxRate;
+    }
+
+    double grossSalary() {
+        return basicSalary + allowance;
+    }
+
+    double tax() {
+        return grossSalary() * taxRate / 100;
+    }
+
+    double netSalary() {
+        return grossSalary() - deductions - tax();
+    }
+
+    void display() {
+        System.out.println("\nEmployee ID: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("Designation: " + designation);
+        System.out.println("Basic Salary: " + basicSalary);
+        System.out.println("Allowance: " + allowance);
+    }
+
+    void salarySlip() {
+        System.out.println("\n------ SALARY SLIP ------");
+        display();
+        System.out.println("Gross Salary: " + grossSalary());
+        System.out.println("Deductions: " + deductions);
+        System.out.println("Tax: " + tax());
+        System.out.println("Net Salary: " + netSalary());
+        System.out.println("-------------------------");
+    }
+}
+
+class PayrollManager {
+    ArrayList<Employee> employees = new ArrayList<>();
+
+    void addEmployee(Employee e) {
+        for (Employee emp : employees) {
+            if (emp.id == e.id) {
+                System.out.println("Employee ID already exists!");
+                return;
+            }
+        }
+        employees.add(e);
+        System.out.println("Employee added successfully!");
+    }
+
+    void viewEmployees() {
+        if (employees.isEmpty()) {
+            System.out.println("No employee records found.");
+            return;
+        }
+
+        for (Employee e : employees) {
+            e.display();
+        }
+    }
+
+    void generateSlip(int id) {
+        for (Employee e : employees) {
+            if (e.id == id) {
+                e.salarySlip();
+                return;
+            }
+        }
+        System.out.println("Employee not found!");
+    }
+
+    void payrollHistory() {
+        if (employees.isEmpty()) {
+            System.out.println("No payroll records found.");
+            return;
+        }
+
+        System.out.println("\n------ PAYROLL HISTORY ------");
+        for (Employee e : employees) {
+            System.out.println("ID: " + e.id +
+                " | Name: " + e.name +
+                " | Net Salary: " + e.netSalary());
+        }
+    }
+}
+
+public class PayrollProcessingSystem {
+    static Scanner sc = new Scanner(System.in);
+
+    static int readInt(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                return Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a valid number!");
+            }
+        }
+    }
+
+    static double readDouble(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                double value = Double.parseDouble(sc.nextLine());
+                if (Double.isFinite(value) && value >= 0)
+                    return value;
+                System.out.println("Enter a valid positive value!");
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a valid amount!");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        PayrollManager pm = new PayrollManager();
+        int choice;
+
+        do {
+            System.out.println("\n===== PAYROLL PROCESSING SYSTEM =====");
+            System.out.println("1. Add Employee");
+            System.out.println("2. View Employees");
+            System.out.println("3. Generate Salary Slip");
+            System.out.println("4. View Payroll History");
+            System.out.println("5. Exit");
+
+            choice = readInt("Enter your choice: ");
+
+            switch (choice) {
+                case 1:
+                    int id = readInt("Enter Employee ID: ");
+
+                    System.out.print("Enter Name: ");
+                    String name = sc.nextLine();
+
+                    System.out.print("Enter Designation: ");
+                    String designation = sc.nextLine();
+
+                    double basic = readDouble("Enter Basic Salary: ");
+                    double allowance = readDouble("Enter Allowance: ");
+                    double deduction = readDouble("Enter Deductions: ");
+                    double tax = readDouble("Enter Tax Rate (%): ");
+
+                    if (name.trim().isEmpty() ||
+                        designation.trim().isEmpty() ||
+                        id <= 0 || tax > 100 ||
+                        deduction > basic + allowance) {
+                        System.out.println("Invalid employee details!");
+                        break;
+                    }
+
+                    Employee e = new Employee(id, name,
+                        designation, basic, allowance,
+                        deduction, tax);
+
+                    pm.addEmployee(e);
+                    break;
+
+                case 2:
+                    pm.viewEmployees();
+                    break;
+
+                case 3:
+                    int empId = readInt("Enter Employee ID: ");
+                    pm.generateSlip(empId);
+                    break;
+
+                case 4:
+                    pm.payrollHistory();
+                    break;
+
+                case 5:
+                    System.out.println("Thank you for using Payroll System!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Try again.");
+            }
+        } while (choice != 5);
+
+        sc.close();
+    }
+}
