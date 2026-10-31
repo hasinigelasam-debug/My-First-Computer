@@ -1,0 +1,150 @@
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Employee {
+    int id;
+    String name, designation;
+    double basicSalary, allowances, deductions;
+
+    Employee(int id, String name, String designation,
+             double basicSalary, double allowances, double deductions) {
+        this.id = id;
+        this.name = name;
+        this.designation = designation;
+        this.basicSalary = basicSalary;
+        this.allowances = allowances;
+        this.deductions = deductions;
+    }
+
+    double grossSalary() {
+        return basicSalary + allowances;
+    }
+
+    double netSalary() {
+        return grossSalary() - deductions;
+    }
+
+    void displayPayslip() {
+        System.out.println("\n----- SALARY SLIP -----");
+        System.out.println("Employee ID: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("Designation: " + designation);
+        System.out.println("Basic Salary: " + basicSalary);
+        System.out.println("Allowances: " + allowances);
+        System.out.println("Gross Salary: " + grossSalary());
+        System.out.println("Deductions: " + deductions);
+        System.out.println("Net Salary: " + netSalary());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Employee> employees = new ArrayList<>();
+        int choice = 0;
+
+        do {
+            System.out.println("\n=== PAYROLL PROCESSING SYSTEM ===");
+            System.out.println("1. Add Employee");
+            System.out.println("2. View Employees");
+            System.out.println("3. Generate Salary Slip");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter Employee ID: ");
+                        int id = Integer.parseInt(sc.nextLine());
+
+                        boolean exists = false;
+                        for (Employee e : employees) {
+                            if (e.id == id) {
+                                exists = true;
+                                break;
+                            }
+                        }
+
+                        if (id <= 0 || exists) {
+                            System.out.println("Invalid or duplicate Employee ID!");
+                            break;
+                        }
+
+                        System.out.print("Enter Name: ");
+                        String name = sc.nextLine();
+
+                        System.out.print("Enter Designation: ");
+                        String designation = sc.nextLine();
+
+                        System.out.print("Enter Basic Salary: ");
+                        double basic = Double.parseDouble(sc.nextLine());
+
+                        System.out.print("Enter Allowances: ");
+                        double allowance = Double.parseDouble(sc.nextLine());
+
+                        System.out.print("Enter Deductions: ");
+                        double deduction = Double.parseDouble(sc.nextLine());
+
+                        if (basic < 0 || allowance < 0 || deduction < 0
+                                || deduction > basic + allowance) {
+                            System.out.println("Invalid salary details!");
+                        } else {
+                            employees.add(new Employee(id, name, designation,
+                                    basic, allowance, deduction));
+                            System.out.println("Employee added successfully!");
+                        }
+                        break;
+
+                    case 2:
+                        if (employees.isEmpty()) {
+                            System.out.println("No employee records found.");
+                        } else {
+                            System.out.println("\n--- EMPLOYEE RECORDS ---");
+                            for (Employee e : employees) {
+                                System.out.println("ID: " + e.id);
+                                System.out.println("Name: " + e.name);
+                                System.out.println("Designation: " + e.designation);
+                                System.out.println("Net Salary: " + e.netSalary());
+                                System.out.println("----------------------");
+                            }
+                        }
+                        break;
+
+                    case 3:
+                        System.out.print("Enter Employee ID: ");
+                        int searchId = Integer.parseInt(sc.nextLine());
+                        boolean found = false;
+
+                        for (Employee e : employees) {
+                            if (e.id == searchId) {
+                                e.displayPayslip();
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found) {
+                            System.out.println("Employee not found!");
+                        }
+                        break;
+
+                    case 4:
+                        System.out.println("Thank you for using Payroll System!");
+                        break;
+
+                    default:
+                        System.out.println("Invalid choice! Try again.");
+                }
+
+            } catch (NumberFormatException ex) {
+                System.out.println("Please enter valid numeric input!");
+            }
+
+        } while (choice != 4);
+
+        sc.close();
+    }
+}
